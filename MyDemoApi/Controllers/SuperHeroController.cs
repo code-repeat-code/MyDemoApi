@@ -42,8 +42,19 @@ namespace MyDemoApi.Controllers
 
         // PUT api/<SuperHeroController>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public async Task<ActionResult<List<SuperHero>>> Put(SuperHero superHero)
         {
+            var hero = heros.Find(_ => _.id == superHero.id);
+            if (hero == null)
+            {
+                return BadRequest("Hero not found");
+            }
+            hero.Name = superHero.Name;
+            hero.FirstName = superHero.FirstName;
+            hero.LastName = superHero.LastName;
+            hero.Place = superHero.Place;
+            
+            return Ok(heros);
         }
 
         // DELETE api/<SuperHeroController>/5
