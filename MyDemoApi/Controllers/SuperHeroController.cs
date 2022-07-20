@@ -59,8 +59,15 @@ namespace MyDemoApi.Controllers
 
         // DELETE api/<SuperHeroController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ActionResult<List<SuperHero>>> Delete(int id)
         {
+            var hero = heros.Find(_ => _.id == id);
+            if (hero == null) {
+                return BadRequest("You cannot deleted becuase hero does not exist");
+            }
+            heros.Remove(hero);
+            return Ok(heros);
+                
         }
     }
 }
